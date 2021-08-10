@@ -18,7 +18,7 @@ public class LinkedListDeque<T> {
     /** Creates an empty LinkedListDeque **/
     public LinkedListDeque() {
         size = 0;
-        sentinel = new Node(null, (T)null, null);
+        sentinel = new Node(null, null, null);
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
     }
@@ -53,7 +53,7 @@ public class LinkedListDeque<T> {
     public void printDeque() {
         System.out.print("[ ");
         Node p = sentinel.next;
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             System.out.print(p.value + " ");
             p = p.next;
         }
@@ -61,25 +61,27 @@ public class LinkedListDeque<T> {
         System.out.println();
     }
 
-    /** Removes and returns the item at the front of the deque. If no such item exists, returns null. **/
+    /** Removes and returns the item at the front of the deque.
+     * If no such item exists, returns null. **/
     public T removeFirst() {
         if (size == 0){
             return null;
         }
         size--;
-        T result = (T)sentinel.next.value;
+        T result = (T) sentinel.next.value;
         sentinel.next.next.prev = sentinel;
         sentinel.next = sentinel.next.next;
         return result;
     }
 
-    /** Removes and returns the item at the back of the deque. If no such item exists, returns null. **/
+    /** Removes and returns the item at the back of the deque.
+     * If no such item exists, returns null. **/
     public T removeLast() {
         if (size == 0){
             return null;
         }
         size--;
-        T result = (T)sentinel.prev.value;
+        T result = (T) sentinel.prev.value;
         sentinel.prev.prev.next = sentinel;
         sentinel.prev = sentinel.prev.prev;
         return result;
@@ -90,26 +92,26 @@ public class LinkedListDeque<T> {
      * If no such item exists, returns null. Must not alter the deque!
      */
     public T get(int index) {
-        if (index < 0 || index >= size){
+        if (index < 0 || index >= size) {
             return null;
         }
         Node p = sentinel.next;
-        for (int i = 0; i < index; i++){
+        for (int i = 0; i < index; i++) {
             p = p.next;
         }
-        return (T)p.value;
+        return (T) p.value;
     }
 
     private T getRecursiveHelpMethod(Node p, int index) {
-        if (index == 0){
-            return (T)p.value;
+        if (index == 0) {
+            return (T) p.value;
         }
-        return (T)getRecursiveHelpMethod(p.next, index - 1);
+        return (T) getRecursiveHelpMethod(p.next, index - 1);
     }
 
     /** Same as get, but uses recursion. **/
     public T getRecursive(int index) {
-        if (index < 0 || index >= size){
+        if (index < 0 || index >= size) {
             return null;
         }
         return (T) getRecursiveHelpMethod(sentinel.next, index);

@@ -15,7 +15,7 @@ public class ArrayDeque<T> {
 
     private void resizing(int capacity) {
         T[] newItems = (T[]) new Object[capacity];
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             newItems[i] = items[(firstPointer + i) % items.length];
         }
         this.items = newItems;
@@ -25,7 +25,7 @@ public class ArrayDeque<T> {
 
     /** Adds an item of type T to the front of the deque. **/
     public void addFirst(T item) {
-        if (size == items.length){
+        if (size == items.length) {
             resizing(2 * size);
         }
         size++;
@@ -35,7 +35,7 @@ public class ArrayDeque<T> {
 
     /** Adds an item of type T to the back of the deque. **/
     public void addLast(T item) {
-        if (size == items.length){
+        if (size == items.length) {
             resizing(2 * size);
         }
         size++;
@@ -56,14 +56,15 @@ public class ArrayDeque<T> {
     /** Prints the items in the deque from first to last, separated by a space. **/
     public void printDeque() {
         System.out.print("[ ");
-        for (int i = firstPointer; i < size; i++){
+        for (int i = firstPointer; i < size; i++) {
             System.out.print(items[i] + " ");
         }
         System.out.print("]");
         System.out.println();
     }
 
-    /** Removes and returns the item at the front of the deque. If no such item exists, returns null. **/
+    /** Removes and returns the item at the front of the deque.
+     * If no such item exists, returns null. **/
     public T removeFirst() {
         if (size == 0){
             return null;
@@ -71,21 +72,22 @@ public class ArrayDeque<T> {
         size--;
         T result = items[firstPointer];
         firstPointer = (firstPointer + 1) % items.length;
-        if (items.length > 16 && ((double)size / items.length) < 0.25){
+        if (items.length > 16 && ((double) size / items.length) < 0.25) {
             resizing(items.length / 2);
         }
         return result;
     }
 
-    /** Removes and returns the item at the back of the deque. If no such item exists, returns null. **/
+    /** Removes and returns the item at the back of the deque.
+     *  If no such item exists, returns null. **/
     public T removeLast() {
-        if (size == 0){
+        if (size == 0) {
             return null;
         }
         size--;
         lastPointer = (lastPointer - 1 + items.length) % items.length;
         T result = items[lastPointer];
-        if (items.length > 16 && ((double)size / items.length) < 0.25){
+        if (items.length > 16 && ((double) size / items.length) < 0.25) {
             resizing(items.length / 2);
         }
         return result;
@@ -96,7 +98,7 @@ public class ArrayDeque<T> {
      * If no such item exists, returns null. Must not alter the deque!
      */
     public T get(int index) {
-        if (index < 0 || index >= size){
+        if (index < 0 || index >= size) {
             return null;
         }
         return items[(firstPointer + index) % items.length];
