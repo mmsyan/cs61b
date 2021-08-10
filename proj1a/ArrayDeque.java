@@ -69,10 +69,9 @@ public class ArrayDeque<T> {
             return null;
         }
         size--;
-        /**
         if(items.length > 16 && ((double)size / items.length) <= 0.25){
             resizing(items.length / 2);
-        }**/
+        }
         T result = items[firstPointer];
         firstPointer = (firstPointer + 1) % items.length;
         return result;
@@ -84,10 +83,10 @@ public class ArrayDeque<T> {
             return null;
         }
         size--;
-        /**
+
         if(items.length > 16 && ((double)size / items.length) <= 0.25){
             resizing(items.length / 2);
-        }**/
+        }
         lastPointer = (lastPointer - 1 + items.length) % items.length;
         T result = items[lastPointer];
         return result;
