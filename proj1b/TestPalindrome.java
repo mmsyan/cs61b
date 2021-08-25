@@ -15,4 +15,24 @@ public class TestPalindrome {
         }
         assertEquals("persiflage", actual);
     }
+
+    @Test
+    public void testIsPalindrome1() {
+        assertTrue(palindrome.isPalindrome("a"));
+        assertTrue(palindrome.isPalindrome("racecar"));
+        assertTrue(palindrome.isPalindrome("noon"));
+        assertFalse(palindrome.isPalindrome("horse"));
+        assertFalse(palindrome.isPalindrome("rancor"));
+        assertFalse(palindrome.isPalindrome("aaaaab"));
+    }
+
+    @Test
+    public void testIsPalindrome2() {
+        assertTrue(palindrome.isPalindrome(""));
+        char[] test = new char[1];
+        for (test[0] = 0; test[0] <= 'z'; test[0]++) {
+            String z = new String(test);
+            assertTrue(palindrome.isPalindrome(z));
+        }
+    }
 }
