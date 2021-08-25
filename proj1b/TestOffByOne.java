@@ -6,6 +6,7 @@ public class TestOffByOne {
     // You must use this CharacterComparator and not instantiate
     // new ones, or the autograder might be upset.
     static CharacterComparator offByOne = new OffByOne();
+    static CharacterComparator offBy1 = new OffByN(1);
 
     // Your tests go here.
     @Test
@@ -24,6 +25,8 @@ public class TestOffByOne {
         assertTrue(offByOne.equalChars('B', 'A'));
         assertFalse(offByOne.equalChars('A', 'C'));
         assertFalse(offByOne.equalChars('C', 'A'));
+        assertFalse(offByOne.equalChars('A', 'a'));
+        assertFalse(offByOne.equalChars('C', 'a'));
     }
 
     @Test
@@ -40,4 +43,5 @@ public class TestOffByOne {
         assertFalse(offByOne.equalChars('a', '%'));
         assertFalse(offByOne.equalChars('A', '%'));
     }
+
 }
