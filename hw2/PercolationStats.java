@@ -1,87 +1,67 @@
 package hw2;
 
-
-import edu.princeton.cs.introcs.StdRandom;
-import edu.princeton.cs.introcs.StdStats;
-
-
-/**
- * Estimates a percolation threshold
- */
 public class PercolationStats {
 
-    private int N;
+    private double[] fractions;
     private int T;
-    private double[] thresholds;
-    private PercolationFactory pf;
 
-    /**
-     * Performs T independent experiments on an N-by-N grid.
-     *
-     * @throws IllegalArgumentException if {@code N <= 0} or {@code T <= 0}
-     */
-    public PercolationStats(int N, int T, PercolationFactory pf) throws IllegalArgumentException {
-        if (N <= 0) {
-            throw new IllegalArgumentException(
-                    "N should be greater than 0 but given N = " + N + "."
-            );
-        }
-        if (T <= 0) {
-            throw new IllegalArgumentException(
-                    "T should be greater than 0 but given T = " + T + "."
-            );
-        }
 
-        this.N = N;
-        this.T = T;
-        thresholds = new double[T];
-        this.pf = pf;
 
-        simulate();
-    }
-
-    /* Runs T simulations and record the results */
-    private void simulate() {
-        for (int t = 0; t < T; t += 1) {
-            Percolation system = pf.make(N);
-            while (!system.percolates()) {
-                int row = StdRandom.uniform(N);
-                int col = StdRandom.uniform(N);
-                if (!system.isOpen(row, col)) {
-                    system.open(row, col);
-                }
+    private void test(Percolation p, int N) {
+        while (true) {
+            int x = edu.princeton.cs.introcs.StdRandom.uniform(N);
+            int y = edu.princeton.cs.introcs.StdRandom.uniform(N);
+            p.open(x, y);
+            if (p.percolates()) {
+                break;
             }
-            double threshold = (double) system.numberOfOpenSites() / (N * N);
-            thresholds[t] = threshold;
         }
     }
 
-    /**
-     * Return sample mean of percolation threshold
-     */
+    /** perform T independent experiments on an N-by-N grid */
+    public PercolationStats(int N, int T, PercolationFactory pf) {
+        if (N <= 0 || T <= 0) {
+            throw new IllegalArgumentException("");
+        }
+        this.fractions = new double[T];
+        this.T = T;
+        for (int i = 0; i < T; i++) {
+            Percolation p = pf.make(N);
+            test(p, N);
+            fractions[i] = (double)p.numberOfOpenSites() / (N * N);
+        }
+    }
+
+    /** sample mean of percolation threshold */
     public double mean() {
-        return StdStats.mean(thresholds);
+        double sum = 0.0;
+        for (int i = 0; i < T; i++) {
+            sum += fractions[i];
+        }
+        return sum / T;
     }
 
-    /**
-     * Returns sample standard deviation of percolation threshold
-     */
+    /** sample standard deviation of percolation threshold */
     public double stddev() {
-        return StdStats.stddev(thresholds);
+        double mean = mean();
+        double sum = 0;
+        for (int i = 0; i < T; i++) {
+            sum = sum + (fractions[i] - mean) * (fractions[i] - mean);
+        }
+        sum = sum / (T - 1);
+        return Math.sqrt(sum);
     }
 
-    /**
-     * Returns low endpoint of 95% confidence interval
-     */
+    /** low endpoint of 95% confidence interval */
     public double confidenceLow() {
-        return mean() - (1.96 * stddev() / Math.sqrt(T));
+        double confidence = 1.96 * stddev() / ((double)Math.sqrt(T));
+        return mean() - confidence;
     }
 
-    /**
-     * Returns high endpoint of 95% confidence interval
-     */
+    /** // high endpoint of 95% confidence interval */
     public double confidenceHigh() {
-        return mean() + (1.96 * stddev() / Math.sqrt(T));
+        double confidence = 1.96 * stddev() / ((double)Math.sqrt(T));
+        return mean() + confidence;
     }
 
 }
