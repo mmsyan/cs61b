@@ -81,7 +81,7 @@ public class Percolation {
             return true;
         }
         for (int i = 0; i < N; i++) {
-            if (wuf.connected(target, i)) {
+            if (wuf.connected(target, i) && universe[row][col]) {
                 fullUniverse[target] = true;
                 return universe[row][col];
             }
