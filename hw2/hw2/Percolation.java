@@ -8,8 +8,7 @@ public class Percolation {
     private int N;
     private int numberOfOpenSites;
 
-    private boolean[] fullUniverse;
-    private boolean isPercolation;
+
 
     /** create N-by-N grid, with all sites initially blocked */
     public Percolation(int N) {
@@ -17,10 +16,9 @@ public class Percolation {
             throw new IllegalArgumentException("N <= 0!");
         }
         universe = new boolean[N][N];
-        wuf = new WeightedQuickUnionUF(N * N);
+        wuf = new WeightedQuickUnionUF(N * N + 2);
         this.N = N;
         numberOfOpenSites = 0;
-        fullUniverse = new boolean[N * N];
     }
 
     private void verify(int row, int col) {
@@ -30,10 +28,7 @@ public class Percolation {
     }
 
     private boolean connectVerify(int x, int y) {
-        if ((x < 0) || (y < 0) || (x >= N) || (y >= N)) {
-            return false;
-        }
-        return universe[x][y];
+        return  !(x < 0 || y < 0 || x >= N || y >= N) && universe[x][y];
     }
 
     private void connect(int row, int col) {
@@ -65,6 +60,12 @@ public class Percolation {
         universe[row][col] = true;
         numberOfOpenSites++;
         connect(row, col);
+        if (row == 0) {
+            wuf.union(N * N, xyTo1D(row, col));
+        }
+        if (row == N - 1) {
+            wuf.union(N * N + 1, xyTo1D(row, col));
+        }
     }
 
     /** is the site (row, col) open? */
@@ -76,17 +77,7 @@ public class Percolation {
     /** is the site (row, col) full? */
     public boolean isFull(int row, int col) {
         verify(row, col);
-        int target = xyTo1D(row, col);
-        if (fullUniverse[target]) {
-            return true;
-        }
-        for (int i = 0; i < N; i++) {
-            if (wuf.connected(target, i) && universe[row][col]) {
-                fullUniverse[target] = true;
-                return universe[row][col];
-            }
-        }
-        return false;
+        return wuf.connected(xyTo1D(row, col), N * N + 1);
     }
 
     /** number of open sites */
@@ -96,16 +87,7 @@ public class Percolation {
 
     /** does the system percolate? */
     public boolean percolates() {
-        if (isPercolation) {
-            return true;
-        }
-        for (int i = 0; i < N; i++) {
-            if (isFull(N - 1, i)) {
-                isPercolation = true;
-                return true;
-            }
-        }
-        return false;
+        return wuf.connected(N * N, N * N + 1);
     }
 
     /** use for unit testing (not required) */
