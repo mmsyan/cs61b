@@ -8,6 +8,9 @@ public class Percolation {
     private int N;
     private int numberOfOpenSites;
 
+    private boolean[] fullUniverse;
+    private boolean isPercolation;
+
     /** create N-by-N grid, with all sites initially blocked */
     public Percolation(int N) {
         if (N <= 0) {
@@ -17,6 +20,7 @@ public class Percolation {
         wuf = new WeightedQuickUnionUF(N * N);
         this.N = N;
         numberOfOpenSites = 0;
+        fullUniverse = new boolean[N * N];
     }
 
     private void verify(int row, int col) {
@@ -46,7 +50,6 @@ public class Percolation {
         if (connectVerify(row, col + 1)) {
             wuf.union(target, xyTo1D(row, (col + 1)));
         }
-        return;
     }
 
     private int xyTo1D(int r, int c) {
@@ -74,8 +77,12 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         verify(row, col);
         int target = xyTo1D(row, col);
+        if (fullUniverse[target]) {
+            return true;
+        }
         for (int i = 0; i < N; i++) {
             if (wuf.connected(target, i)) {
+                fullUniverse[target] = true;
                 return universe[row][col];
             }
         }
@@ -89,8 +96,12 @@ public class Percolation {
 
     /** does the system percolate? */
     public boolean percolates() {
+        if (isPercolation) {
+            return true;
+        }
         for (int i = 0; i < N; i++) {
             if (isFull(N - 1, i)) {
+                isPercolation = true;
                 return true;
             }
         }
@@ -99,7 +110,6 @@ public class Percolation {
 
     /** use for unit testing (not required) */
     public static void main(String[] args) {
-        return;
     }
 
 }
