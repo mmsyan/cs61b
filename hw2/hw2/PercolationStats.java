@@ -28,7 +28,7 @@ public class PercolationStats {
         for (int i = 0; i < T; i++) {
             Percolation p = pf.make(N);
             test(p, N);
-            fractions[i] = (double)p.numberOfOpenSites() / (N * N);
+            fractions[i] = (double) p.numberOfOpenSites() / (N * N);
         }
     }
 
@@ -54,13 +54,13 @@ public class PercolationStats {
 
     /** low endpoint of 95% confidence interval */
     public double confidenceLow() {
-        double confidence = 1.96 * stddev() / ((double)Math.sqrt(T));
+        double confidence = 1.96 * stddev() / ((double) Math.sqrt(T));
         return mean() - confidence;
     }
 
     /** // high endpoint of 95% confidence interval */
     public double confidenceHigh() {
-        double confidence = 1.96 * stddev() / ((double)Math.sqrt(T));
+        double confidence = 1.96 * stddev() / ((double) Math.sqrt(T));
         return mean() + confidence;
     }
 

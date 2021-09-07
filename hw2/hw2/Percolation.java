@@ -25,14 +25,14 @@ public class Percolation {
         }
     }
 
-    public boolean connectVerify(int x, int y) {
+    private boolean connectVerify(int x, int y) {
         if ((x < 0) || (y < 0) || (x >= N) || (y >= N)) {
             return false;
         }
         return universe[x][y];
     }
 
-    private void Connect(int row, int col) {
+    private void connect(int row, int col) {
         int target = xyTo1D(row, col);
         if (connectVerify(row - 1, col)) {
             wuf.union(target, xyTo1D((row - 1), col));
@@ -61,7 +61,7 @@ public class Percolation {
         }
         universe[row][col] = true;
         numberOfOpenSites++;
-        Connect(row, col);
+        connect(row, col);
     }
 
     /** is the site (row, col) open? */
@@ -76,7 +76,7 @@ public class Percolation {
         int target = xyTo1D(row, col);
         for (int i = 0; i < N; i++) {
             if (wuf.connected(target, i)) {
-                return true;
+                return universe[row][col];
             }
         }
         return false;
@@ -95,6 +95,11 @@ public class Percolation {
             }
         }
         return false;
+    }
+
+    /** use for unit testing (not required) */
+    public static void main(String[] args) {
+        return;
     }
 
 }
