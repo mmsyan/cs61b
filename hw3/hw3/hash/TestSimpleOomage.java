@@ -1,12 +1,9 @@
-package hash;
+package hw3.hash;
 
 import org.junit.Test;
 import edu.princeton.cs.introcs.StdRandom;
 
-import java.util.Set;
 import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package hash;
+package hw3.hash;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -44,7 +44,7 @@ public class TestComplexOomage {
         // Your code here.
 
         assertTrue(OomageTestUtility.haveNiceHashCodeSpread(deadlyList, 10));
-    } 
+    }
 
     /** Calls tests for SimpleOomage. */
     public static void main(String[] args) {
