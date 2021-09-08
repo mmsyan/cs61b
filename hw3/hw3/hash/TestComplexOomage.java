@@ -2,6 +2,7 @@ package hw3.hash;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import edu.princeton.cs.introcs.StdRandom;
 
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class TestComplexOomage {
 
         List<Integer> d = new ArrayList<>();
         for (int i = 0; i < 10000; i++) {
-            d.add(edu.princeton.cs.introcs.StdRandom.uniform(65536));
+            d.add(StdRandom.uniform(51) * 5);
             d.add(1); d.add(2); d.add(3); d.add(4);
             deadlyList.add(new ComplexOomage(d));
         }
