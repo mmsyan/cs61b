@@ -1,5 +1,3 @@
-package lab10;
-
 /**
  * Priority queue where objects have no intrinsic priority. Instead,
  * priorities are supplied as an argument during insertion and can be
