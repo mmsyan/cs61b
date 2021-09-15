@@ -1,6 +1,5 @@
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * A Generic heap class. Unlike Java's priority queue, this heap doesn't just
@@ -14,6 +13,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
 
     public ArrayHeap() {
         contents = new ArrayHeap.Node[16];
+
         /* Add a dummy item at the front of the ArrayHeap so that the getLeft,
          * getRight, and parent methods are nicer. */
         contents[0] = null;
@@ -27,7 +27,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node to the left of the node at i.
      */
     private static int leftIndex(int i) {
-        /*  Your code here! */
         return 2 * i;
     }
 
@@ -35,7 +34,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node to the right of the node at i.
      */
     private static int rightIndex(int i) {
-        /*  Your code here! */
         return 2 * i + 1;
     }
 
@@ -43,7 +41,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node that is the parent of the node at i.
      */
     private static int parentIndex(int i) {
-        /*  Your code here! */
         return i / 2;
     }
 
@@ -106,12 +103,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
-
-        while (true) {
-            if (index == 1 || min(index, parentIndex(index)) == parentIndex(index)) {
-                break;
-            }
-            swap(index, parentIndex(index));
+        while (index != 1 && contents[index].myPriority < contents[index / 2].myPriority) {
+            swap(index, index / 2);
             index = index / 2;
         }
     }
@@ -122,17 +115,13 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private void sink(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
-
-        while (true) {
-            if (leftIndex(index) > size) {
+        while (index * 2 <= size) {
+            int smallIndex = min(index * 2, index * 2 + 1);
+            if (contents[index].myPriority <= contents[smallIndex].myPriority) {
                 break;
             }
-            if (min(index, leftIndex(index)) == index && min(index, rightIndex(index)) == index) {
-                break;
-            }
-            int next = min(leftIndex(index), rightIndex(index));
-            swap(index, next);
-            index = next;
+            swap(index, smallIndex);
+            index = smallIndex;
         }
     }
 
@@ -146,8 +135,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         if (size + 1 == contents.length) {
             resize(contents.length * 2);
         }
-
-        /*  Your code here! */
         size++;
         contents[size] = new Node(item, priority);
         swim(size);
@@ -159,10 +146,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T peek() {
-        /*  Your code here! */
-        if (size == 0) {
-            return null;
-        }
         return contents[1].myItem;
     }
 
@@ -177,7 +160,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T removeMin() {
-        /**  Your code here! */
         if (size == 0) {
             return null;
         }
@@ -185,8 +167,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             size--;
             return contents[1].myItem;
         }
-        T result = contents[1].myItem;
         swap(1, size);
+        T result = contents[size].myItem;
         size--;
         sink(1);
         return result;
@@ -211,24 +193,17 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public void changePriority(T item, double priority) {
-        /*  Your code here! */
-        double oldPriority = 0;
-        int index = 0;
-        for (int i = 1; i < size + 1; i++) {
-            if (contents[i].myItem.equals(item)) {
-                oldPriority = contents[i].myPriority;
-                index = i;
-                contents[i].myPriority = priority;
-                if (oldPriority < priority) {
-                    sink(index);
-                }
-                else {
-                    swim(index);
-                }
+        int targetIndex = 0;
+        for (int i = 1; i <= size; i++) {
+            if ((contents[i].myItem).equals(item)) {
+                targetIndex = i;
                 break;
             }
         }
-        return;
+        if (targetIndex != 0) {
+            sink(targetIndex);
+            swim(targetIndex);
+        }
     }
 
     /**
@@ -302,7 +277,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
 
     /** Helper function to resize the backing array when necessary. */
     private void resize(int capacity) {
-        Node[] temp = (Node[]) new Object[capacity];
+        Node[] temp = new ArrayHeap.Node[capacity];
         for (int i = 1; i < this.contents.length; i++) {
             temp[i] = this.contents[i];
         }
