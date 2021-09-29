@@ -1,8 +1,5 @@
 import edu.princeton.cs.algs4.Queue;
 
-import static org.junit.Assert.assertEquals;
-
-
 public class MergeSort {
     /**
      * Removes and returns the smallest item that is in q1 or q2.
@@ -39,9 +36,9 @@ public class MergeSort {
             makeSingleItemQueues(Queue<Item> items) {
         Queue<Queue<Item>> result = new Queue<>();
         while(!items.isEmpty()) {
-            Queue<Item> item = new Queue<>();
-            item.enqueue(items.dequeue());
-            result.enqueue(item);
+            Queue<Item> q = new Queue<>();
+            q.enqueue(items.dequeue());
+            result.enqueue(q);
         }
         return result;
     }
@@ -71,19 +68,25 @@ public class MergeSort {
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
-        if (items == null) {
-            return null;
-        }
-        if (items.size() == 0 || items.size() == 1) {
+        if (items == null || items.size() <= 1) {
             return items;
         }
-        Queue<Queue<Item>> pendingQueue = makeSingleItemQueues(items);
-        while(pendingQueue.size() != 1) {
-            Queue<Item> qq1 = pendingQueue.dequeue();
-            Queue<Item> qq2 = pendingQueue.dequeue();
-            pendingQueue.enqueue(mergeSortedQueues(qq1, qq2));
+        int boundary = items.size() / 2;
+        int i = 0;
+        Queue<Item> leftQueue = new Queue<>();
+        Queue<Item> rightQueue = new Queue<>();
+        while(i < boundary) {
+            leftQueue.enqueue(items.dequeue());
+            i++;
         }
-        return pendingQueue.peek();
+        while (i < items.size()) {
+            rightQueue.enqueue(items.dequeue());
+            i++;
+        }
+        mergeSort(leftQueue);
+        mergeSort(rightQueue);
+        return mergeSortedQueues(leftQueue, rightQueue);
+
     }
 
 
