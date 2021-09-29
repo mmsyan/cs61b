@@ -1,5 +1,7 @@
 import edu.princeton.cs.algs4.Queue;
 
+import static org.junit.Assert.assertEquals;
+
 
 public class MergeSort {
     /**
@@ -69,17 +71,20 @@ public class MergeSort {
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
+        if (items == null) {
+            return null;
+        }
+        if (items.size() == 1) {
+            return items;
+        }
         Queue<Queue<Item>> pendingQueue = makeSingleItemQueues(items);
         while(pendingQueue.size() != 1) {
-            for (int i = 0; i < pendingQueue.size(); i++) {
-                Queue<Item> qq1 = pendingQueue.dequeue();
-                Queue<Item> qq2 = pendingQueue.dequeue();
-                pendingQueue.enqueue(mergeSortedQueues(qq1, qq2));
-            }
+            Queue<Item> qq1 = pendingQueue.dequeue();
+            Queue<Item> qq2 = pendingQueue.dequeue();
+            pendingQueue.enqueue(mergeSortedQueues(qq1, qq2));
         }
         return pendingQueue.peek();
     }
-
 
 
 }
