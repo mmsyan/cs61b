@@ -71,22 +71,13 @@ public class MergeSort {
         if (items == null || items.size() <= 1) {
             return items;
         }
-        int boundary = items.size() / 2;
-        int i = 0;
-        Queue<Item> leftQueue = new Queue<>();
-        Queue<Item> rightQueue = new Queue<>();
-        while(i < boundary) {
-            leftQueue.enqueue(items.dequeue());
-            i++;
+        Queue<Queue<Item>> pendingQueue = makeSingleItemQueues(items);
+        while (pendingQueue.size() > 1) {
+            Queue<Item> q1 = pendingQueue.dequeue();
+            Queue<Item> q2 = pendingQueue.dequeue();
+            pendingQueue.enqueue(mergeSortedQueues(q1, q2));
         }
-        while (i < items.size()) {
-            rightQueue.enqueue(items.dequeue());
-            i++;
-        }
-        mergeSort(leftQueue);
-        mergeSort(rightQueue);
-        return mergeSortedQueues(leftQueue, rightQueue);
-
+        return pendingQueue.dequeue();
     }
 
 
