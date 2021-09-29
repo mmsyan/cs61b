@@ -74,7 +74,7 @@ public class MergeSort {
         if (items == null) {
             return null;
         }
-        if (items.size() == 1) {
+        if (items.size() == 0 || items.size() == 1) {
             return items;
         }
         Queue<Queue<Item>> pendingQueue = makeSingleItemQueues(items);
