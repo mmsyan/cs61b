@@ -37,7 +37,7 @@ public class MergeSort {
         Queue<Queue<Item>> result = new Queue<>();
         for (Item item : items) {
             Queue<Item> q = new Queue<>();
-            q.enqueue(items.dequeue());
+            q.enqueue(item);
             result.enqueue(q);
         }
         return result;
@@ -78,5 +78,19 @@ public class MergeSort {
             pendingQueue.enqueue(mergeSortedQueues(q1, q2));
         }
         return pendingQueue.dequeue();
+    }
+
+    public static void main(String[] args) {
+        Queue<String> students = new Queue<String>();
+        students.enqueue("Alice");
+        students.enqueue("Vanessa");
+        students.enqueue("Ethan");
+
+        System.out.println(students);
+        System.out.println("Original queue: " + students);
+        System.out.println("Sorted queue: " + mergeSort(students));
+
+        Queue<Integer> q = new Queue<>();
+        mergeSort(q);
     }
 }
