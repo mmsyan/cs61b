@@ -34,6 +34,7 @@ public class RadixSort {
             }
             for (String iterator : s) {
                 if (iterator.length() < i) {
+                    bucket[0].add(iterator);
                 }
                 else {
                     bucket[iterator.charAt(i - 1)].add(iterator);
@@ -101,7 +102,7 @@ public class RadixSort {
     }
 
     public static void main(String[] args) {
-        String[] a =  {"356", "112", "904", "294", "209", "820", "394", "810"};
+        String[] a =  {"3561", "12", "904", "294", "209", "820", "394", "810","9845613"};
         System.out.println(Arrays.toString(sort(a)));
     }
 }
