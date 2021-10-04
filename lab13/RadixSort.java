@@ -1,3 +1,8 @@
+import edu.princeton.cs.algs4.Queue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Class for doing Radix sort
  *
@@ -16,8 +21,27 @@ public class RadixSort {
      * @return String[] the sorted array
      */
     public static String[] sort(String[] asciis) {
-        // TODO: Implement LSD Sort
-        return null;
+        int maxIndex = 0;
+        for (String iterator : asciis) {
+            maxIndex = Math.max(maxIndex, iterator.length());
+        }
+        ArrayList<String>[] bucket = new ArrayList[256];
+
+        String[] s = asciis;
+        for (int i = maxIndex; i > 0; i--) {
+            for (int k = 0; k < 256; k++) {
+                bucket[k] = new ArrayList<>();
+            }
+            for (String iterator : s) {
+                if (iterator.length() < i) {
+                }
+                else {
+                    bucket[iterator.charAt(i - 1)].add(iterator);
+                }
+            }
+            s = stringToQueuearray(bucket, asciis.length);
+        }
+        return s;
     }
 
     /**
@@ -27,8 +51,38 @@ public class RadixSort {
      * @param index The position to sort the Strings on.
      */
     private static void sortHelperLSD(String[] asciis, int index) {
-        // Optional LSD helper method for required LSD radix sort
-        return;
+        int maxIndex = 0;
+        for (String iterator : asciis) {
+            maxIndex = Math.max(maxIndex, iterator.length());
+        }
+        ArrayList<String>[] bucket = new ArrayList[256];
+        String[] s = asciis;
+        for (int i = maxIndex; i > 0; i--) {
+            for (String iterator : s) {
+                if (iterator.length() < i) {
+                    break;
+                }
+                else {
+                    bucket[iterator.charAt(i - 1)].add(iterator);
+                }
+            }
+            s = stringToQueuearray(bucket, asciis.length);
+        }
+    }
+
+    private static String[] stringToQueuearray(ArrayList<String>[] array, int length) {
+        String[] result = new String[length];
+        int index = 0;
+        for (ArrayList<String> strings : array) {
+            for (String iterator : strings) {
+                result[index] = iterator;
+                index++;
+                if (index == length) {
+                    return result;
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -44,5 +98,10 @@ public class RadixSort {
     private static void sortHelperMSD(String[] asciis, int start, int end, int index) {
         // Optional MSD helper method for optional MSD radix sort
         return;
+    }
+
+    public static void main(String[] args) {
+        String[] a =  {"356", "112", "904", "294", "209", "820", "394", "810"};
+        System.out.println(Arrays.toString(sort(a)));
     }
 }
