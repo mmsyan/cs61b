@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Class with 2 ways of doing Counting sort, one naive way and one "better" way
  *
@@ -28,13 +30,14 @@ public class CountingSort {
 
         // when we're dealing with ints, we can just put each value
         // count number of times into the new array
+        /**
         int[] sorted = new int[arr.length];
         int k = 0;
         for (int i = 0; i < counts.length; i += 1) {
             for (int j = 0; j < counts[i]; j += 1, k += 1) {
                 sorted[k] = i;
             }
-        }
+        }*/
 
         // however, below is a more proper, generalized implementation of
         // counting sort that uses start position calculation
@@ -54,7 +57,7 @@ public class CountingSort {
         }
 
         // return the sorted array
-        return sorted;
+        return sorted2;
     }
 
     /**
@@ -87,17 +90,37 @@ public class CountingSort {
 
 
         int[] sorted = new int[arr.length];
-        int index = 0;
-        for (int i = negativeCount.length - 1; i >= 0; i--) {
-            for (int j = 0; j < negativeCount[i]; j += 1, index += 1) {
-                sorted[index] = -i;
-            }
+        int[] positivePosition = new int[max + 1];
+        int[] negativePosition = new int[-min + 1];
+        int pos = 0;
+        for (int i = negativePosition.length - 1; i > 0; i -= 1) {
+            negativePosition[i] = pos;
+            pos += negativeCount[i];
         }
-        for (int i = 0; i < positiveCount.length; i++) {
-            for (int j = 0; j < positiveCount[i]; j += 1, index += 1) {
-                sorted[index] = i;
+        for (int i = 0; i < positivePosition.length; i += 1) {
+            positivePosition[i] = pos;
+            pos += positiveCount[i];
+        }
+
+        for (int i = 0; i < arr.length; i += 1) {
+            int item = arr[i];
+            if (item >= 0) {
+                int place = positivePosition[item];
+                sorted[place] = item;
+                positivePosition[item] += 1;
             }
+            else {
+                int place = negativePosition[-item];
+                sorted[place] = item;
+                negativePosition[-item] += 1;
+            }
+
         }
         return sorted;
+    }
+
+    public static void main(String[] args) {
+        int[] someNegative = {9, 5, -4, 2, 1, -2, 5, 3, 0, -2, 3, 1, 1};
+        System.out.println(Arrays.toString(betterCountingSort(someNegative)));
     }
 }

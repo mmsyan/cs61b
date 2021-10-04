@@ -52,23 +52,7 @@ public class RadixSort {
      * @param index The position to sort the Strings on.
      */
     private static void sortHelperLSD(String[] asciis, int index) {
-        int maxIndex = 0;
-        for (String iterator : asciis) {
-            maxIndex = Math.max(maxIndex, iterator.length());
-        }
-        ArrayList<String>[] bucket = new ArrayList[256];
-        String[] s = asciis;
-        for (int i = maxIndex; i > 0; i--) {
-            for (String iterator : s) {
-                if (iterator.length() < i) {
-                    break;
-                }
-                else {
-                    bucket[iterator.charAt(i - 1)].add(iterator);
-                }
-            }
-            s = stringToQueuearray(bucket, asciis.length);
-        }
+        return;
     }
 
     private static String[] stringToQueuearray(ArrayList<String>[] array, int length) {
