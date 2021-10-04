@@ -69,6 +69,9 @@ public class CountingSort {
      * @param arr int array that will be sorted
      */
     public static int[] betterCountingSort(int[] arr) {
+        if (arr.length == 0) {
+            return arr;
+        }
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
         for (int i : arr) {
@@ -122,5 +125,11 @@ public class CountingSort {
     public static void main(String[] args) {
         int[] someNegative = {9, 5, -4, 2, 1, -2, 5, 3, 0, -2, 3, 1, 1};
         System.out.println(Arrays.toString(betterCountingSort(someNegative)));
+        int[] Negative = { -4, -2, -1, -2, -5, -3, 0, -2, -3};
+        System.out.println(Arrays.toString(betterCountingSort(Negative)));
+        int[] Positive = {5, 8, 6, 1, 4, 0, 2, 7, 1, 1, 4, 5};
+        System.out.println(Arrays.toString(betterCountingSort(Positive)));
+        int[] a = {};
+        System.out.println(Arrays.toString(betterCountingSort(a)));
     }
 }
