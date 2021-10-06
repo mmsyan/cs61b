@@ -102,6 +102,10 @@ public class IntList {
     }
 
     public static IntList dcatenate(IntList A, IntList B) {
+        if (A == null) {
+            A = B;
+            return A;
+        }
         dcatenateHelper(findEnd(A), B);
         return A;
     }
