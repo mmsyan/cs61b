@@ -1,3 +1,5 @@
+import java.util.Formatter;
+
 /**
  * A naked recursive list of integers, similar to what we saw in lecture 3, but
  * with a large number of additional methods.
@@ -77,6 +79,7 @@ public class IntList {
      * Returns a list consisting of the elements of A followed by the
      * *  elements of B.  May modify items of A. Don't use 'new'.
      */
+
 
     private static void dcatenateHelper(IntList A, IntList B) {
         if (A == null) {
@@ -269,7 +272,5 @@ public class IntList {
         out.format(")");
         return out.toString();
     }
-
-
 }
 
