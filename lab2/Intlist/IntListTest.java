@@ -1,3 +1,5 @@
+package Intlist;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -58,12 +60,32 @@ public class IntListTest {
     }
 
     @Test
+    public void test1() {
+        IntList A = IntList.of(1, 2, 3);
+        IntList B = null;
+        assertEquals(A, IntList.catenate(A, B));
+    }
+
+    @Test
+    public void test2() {
+        IntList A = null;
+        IntList B = IntList.of(1, 2, 3);
+        assertEquals(B, IntList.catenate(A, B));
+    }
+
+    @Test
     public void testCatenate() {
         IntList A = IntList.of(1, 2, 3);
         IntList B = IntList.of(4, 5, 6);
         IntList exp = IntList.of(1, 2, 3, 4, 5, 6);
         assertEquals(exp, IntList.catenate(A, B));
         assertEquals(IntList.of(1, 2, 3), A);
+    }
+
+    @Test
+    public void testCopy() {
+        IntList A = IntList.of(7, 8, 9, 10);
+        assertEquals(IntList.copy(A), A);
     }
 
 }

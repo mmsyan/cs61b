@@ -1,3 +1,5 @@
+package Intlist;
+
 import java.util.Formatter;
 
 /**
@@ -80,18 +82,59 @@ public class IntList {
      * *  elements of B.  May modify items of A. Don't use 'new'.
      */
 
+    private static void dcatenateHelper(IntList A, IntList B) {
+        if (A == null) {
+            A = B;
+        }
+        else {
+            A.rest = B;
+        }
+    }
+
+    private static IntList findEnd(IntList A) {
+        if (A == null) {
+            return null;
+        }
+        IntList pointer = A;
+        while (pointer.rest != null) {
+            pointer = pointer.rest;
+        }
+        return pointer;
+    }
+
     public static IntList dcatenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        dcatenateHelper(findEnd(A), B);
+        return A;
     }
 
     /**
      * Returns a list consisting of the elements of A followed by the
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
+
+    /** Return a copy of list. The list to be copied can not be null! */
+    public static IntList copy(IntList A) {
+        IntList result = new IntList(A.first, null);
+        IntList pa = A.rest, pr = result;
+        while (pa != null) {
+            pr.rest = new IntList(pa.first, null);
+            pr = pr.rest;
+            pa = pa.rest;
+        }
+        return result;
+    }
+
     public static IntList catenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        if (A == null && B == null) {
+            return null;
+        }
+        else if (A == null) {
+            return copy(B);
+        }
+        else {
+            IntList copyA = copy(A);
+            return IntList.dcatenate(copyA, B);
+        }
     }
 
 
@@ -230,5 +273,7 @@ public class IntList {
         out.format(")");
         return out.toString();
     }
+
+
 }
 
