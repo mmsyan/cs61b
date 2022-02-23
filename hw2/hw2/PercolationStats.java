@@ -22,8 +22,9 @@ public class PercolationStats {
     }
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
-        if (N <= 0 || T <= 0)
+        if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException();
+        }
         this.T = T;
         result = new ArrayList<>();
         for (int i = 0; i < T; i++) {
@@ -35,14 +36,14 @@ public class PercolationStats {
         for (double d : result) {
             m += d;
         }
-        this.mean = m/T;
+        this.mean = m / T;
 
         // 计算方差
         double s = 0;
         for (double d : result) {
-            s += (d-mean)*(d-mean);
+            s += (d-mean) * (d-mean);
         }
-        this.stddev = s/(T-1);
+        this.stddev = s / (T - 1);
     }
 
     public double mean() {
@@ -54,10 +55,10 @@ public class PercolationStats {
     }
 
     public double confidenceLow() {
-        return this.mean - 1.96*this.stddev/Math.sqrt(T);
+        return this.mean - 1.96 * this.stddev / Math.sqrt(T);
     }
 
     public double confidenceHigh() {
-        return this.mean + 1.96*this.stddev/Math.sqrt(T);
+        return this.mean + 1.96 * this.stddev / Math.sqrt(T);
     }
 }
