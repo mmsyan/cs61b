@@ -18,8 +18,7 @@ public class GuitarString {
         //       cast the result of this divsion operation into an int. For better
         //       accuracy, use the Math.round() function before casting.
         //       Your buffer should be initially filled with zeros.
-        int capacity = (int) Math.round(SR / frequency);
-        buffer = new ArrayRingBuffer<Double>(capacity);
+        this.buffer = new ArrayRingBuffer<Double>((int) Math.round(SR / frequency));
         while (!buffer.isFull()) {
             buffer.enqueue(0.0);
         }
@@ -28,7 +27,7 @@ public class GuitarString {
 
     /* Pluck the guitar string by replacing the buffer with white noise. */
     public void pluck() {
-        // Dequeue everything in the buffer, and replace it with random numbers
+        //  Dequeue everything in the buffer, and replace it with random numbers
         //       between -0.5 and 0.5. You can get such a number by using:
         //       double r = Math.random() - 0.5;
         //
@@ -37,8 +36,7 @@ public class GuitarString {
             buffer.dequeue();
         }
         while (!buffer.isFull()) {
-            double r = Math.random() - 0.5;
-            buffer.enqueue(r);
+            buffer.enqueue(Math.random() - 0.5);
         }
     }
 
@@ -49,9 +47,8 @@ public class GuitarString {
         //  Dequeue the front sample and enqueue a new sample that is
         //       the average of the two multiplied by the DECAY factor.
         //       Do not call StdAudio.play().
-        double f1 = buffer.dequeue();
-        double f2 = buffer.peek();
-        buffer.enqueue((f1 + f2) * DECAY / 2);
+        double d = (buffer.dequeue() + buffer.peek()) / 2 * DECAY;
+        buffer.enqueue(d);
     }
 
     /* Return the double at the front of the buffer. */
