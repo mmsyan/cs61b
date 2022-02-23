@@ -18,7 +18,7 @@ public class PercolationStats {
             int y = StdRandom.uniform(0, N);
             p.open(x, y);
         }
-        return (double) p.numberOfOpenSites() / N;
+        return (double) p.numberOfOpenSites() / (N * N);
     }
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
@@ -41,7 +41,7 @@ public class PercolationStats {
         // 计算方差
         double s = 0;
         for (double d : result) {
-            s += (d-mean) * (d-mean);
+            s += (d - mean) * (d - mean);
         }
         this.stddev = s / (T - 1);
     }

@@ -41,25 +41,25 @@ public class Percolation {
     }
 
     private boolean connectVerify(int r, int c) {
-        return  (r < N && c < N && r >=0 && c >= 0) && items[r][c] ;
+        return  (r < N && c < N && r >= 0 && c >= 0) && items[r][c];
     }
 
     private void connect(int r, int c) {
         if (connectVerify(r + 1, c)) {
-            wuf.union(coordinate(r + 1,c), coordinate(r,c));
-            wufWithoutBW.union(coordinate(r + 1,c), coordinate(r,c));
+            wuf.union(coordinate(r + 1, c), coordinate(r, c));
+            wufWithoutBW.union(coordinate(r + 1, c), coordinate(r, c));
         }
         if (connectVerify(r - 1, c)) {
-            wuf.union(coordinate(r - 1,c), coordinate(r,c));
-            wufWithoutBW.union(coordinate(r - 1,c), coordinate(r,c));
+            wuf.union(coordinate(r - 1, c), coordinate(r, c));
+            wufWithoutBW.union(coordinate(r - 1, c), coordinate(r, c));
         }
         if (connectVerify(r, c + 1)) {
-            wuf.union(coordinate(r,c + 1), coordinate(r,c));
-            wufWithoutBW.union(coordinate(r,c + 1), coordinate(r,c));
+            wuf.union(coordinate(r,c + 1), coordinate(r, c));
+            wufWithoutBW.union(coordinate(r,c + 1), coordinate(r, c));
         }
         if (connectVerify(r, c - 1)) {
-            wuf.union(coordinate(r,c - 1), coordinate(r,c));
-            wufWithoutBW.union(coordinate(r,c - 1), coordinate(r,c));
+            wuf.union(coordinate(r,c - 1), coordinate(r, c));
+            wufWithoutBW.union(coordinate(r,c - 1), coordinate(r, c));
         }
 
     }
@@ -68,8 +68,9 @@ public class Percolation {
     // open the site (row, col) if it is not open already
     public void open(int row, int col) {
         verify(row, col);
-        if (isOpen(row, col))
+        if (isOpen(row, col)) {
             return;
+        }
         items[row][col] = true;
         numberOfOpenSites++;
 
