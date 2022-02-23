@@ -1,67 +1,63 @@
-package hw2;
+package hw2.hw2;
+
+import java.util.ArrayList;
+import java.util.List;
+import edu.princeton.cs.introcs.StdRandom;
 
 public class PercolationStats {
 
-    private double[] fractions;
+    private List<Double> result;
     private int T;
+    private double mean;
+    private double stddev;
 
 
-
-    private void test(Percolation p, int N) {
-        while (true) {
-            int x = edu.princeton.cs.introcs.StdRandom.uniform(N);
-            int y = edu.princeton.cs.introcs.StdRandom.uniform(N);
+    private double test(int N, Percolation p) {
+        while (!p.percolates()) {
+            int x = StdRandom.uniform(0, N);
+            int y = StdRandom.uniform(0, N);
             p.open(x, y);
-            if (p.percolates()) {
-                break;
-            }
         }
+        return (double) p.numberOfOpenSites() / N;
     }
 
-    /** perform T independent experiments on an N-by-N grid */
     public PercolationStats(int N, int T, PercolationFactory pf) {
-        if (N <= 0 || T <= 0) {
-            throw new IllegalArgumentException("");
-        }
-        this.fractions = new double[T];
+        if (N <= 0 || T <= 0)
+            throw new IllegalArgumentException();
         this.T = T;
+        result = new ArrayList<>();
         for (int i = 0; i < T; i++) {
-            Percolation p = pf.make(N);
-            test(p, N);
-            fractions[i] = (double) p.numberOfOpenSites() / (N * N);
+            result.add(test(N, pf.make(N)));
         }
+
+        // 计算平均数
+        double m = 0;
+        for (double d : result) {
+            m += d;
+        }
+        this.mean = m/T;
+
+        // 计算方差
+        double s = 0;
+        for (double d : result) {
+            s += (d-mean)*(d-mean);
+        }
+        this.stddev = s/(T-1);
     }
 
-    /** sample mean of percolation threshold */
     public double mean() {
-        double sum = 0.0;
-        for (int i = 0; i < T; i++) {
-            sum += fractions[i];
-        }
-        return sum / T;
+        return this.mean;
     }
 
-    /** sample standard deviation of percolation threshold */
     public double stddev() {
-        double mean = mean();
-        double sum = 0;
-        for (int i = 0; i < T; i++) {
-            sum = sum + (fractions[i] - mean) * (fractions[i] - mean);
-        }
-        sum = sum / (T - 1);
-        return Math.sqrt(sum);
+        return this.stddev;
     }
 
-    /** low endpoint of 95% confidence interval */
     public double confidenceLow() {
-        double confidence = 1.96 * stddev() / ((double) Math.sqrt(T));
-        return mean() - confidence;
+        return this.mean - 1.96*this.stddev/Math.sqrt(T);
     }
 
-    /** // high endpoint of 95% confidence interval */
     public double confidenceHigh() {
-        double confidence = 1.96 * stddev() / ((double) Math.sqrt(T));
-        return mean() + confidence;
+        return this.mean + 1.96*this.stddev/Math.sqrt(T);
     }
-
 }
