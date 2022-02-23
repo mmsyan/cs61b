@@ -43,7 +43,7 @@ public class PercolationStats {
         for (double d : result) {
             s += (d - mean) * (d - mean);
         }
-        this.stddev = s / (T - 1);
+        this.stddev = Math.sqrt(s / (T - 1));
     }
 
     public double mean() {
@@ -55,10 +55,12 @@ public class PercolationStats {
     }
 
     public double confidenceLow() {
-        return this.mean - 1.96 * this.stddev / Math.sqrt(T);
+        double confidence = 1.96 * stddev() / ((double) Math.sqrt(T));
+        return mean() - confidence;
     }
 
     public double confidenceHigh() {
-        return this.mean + 1.96 * this.stddev / Math.sqrt(T);
+        double confidence = 1.96 * stddev() / ((double) Math.sqrt(T));
+        return mean() + confidence;
     }
 }

@@ -54,12 +54,12 @@ public class Percolation {
             wufWithoutBW.union(coordinate(r - 1, c), coordinate(r, c));
         }
         if (connectVerify(r, c + 1)) {
-            wuf.union(coordinate(r,c + 1), coordinate(r, c));
-            wufWithoutBW.union(coordinate(r,c + 1), coordinate(r, c));
+            wuf.union(coordinate(r, c + 1), coordinate(r, c));
+            wufWithoutBW.union(coordinate(r, c + 1), coordinate(r, c));
         }
         if (connectVerify(r, c - 1)) {
-            wuf.union(coordinate(r,c - 1), coordinate(r, c));
-            wufWithoutBW.union(coordinate(r,c - 1), coordinate(r, c));
+            wuf.union(coordinate(r, c - 1), coordinate(r, c));
+            wufWithoutBW.union(coordinate(r, c - 1), coordinate(r, c));
         }
 
     }
