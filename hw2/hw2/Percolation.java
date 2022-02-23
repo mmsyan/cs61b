@@ -10,6 +10,15 @@ public class Percolation {
     private int numberOfOpenSites;
     private final int N;
 
+    /**
+     * items:用于判断(row, col)处的节点是否处于开启状态
+     * wuf:用于连接已经开启的节点。
+     *      wuf[N*N]为顶部虚拟节点，wuf[N*N+1]为底部虚拟节点
+     * wufWithoutBW:用于解决回流问题
+     *      和wuf不同，没有底部虚拟节点
+     * numberOfOpenSites:用于计算已经开启的节点数量
+     * */
+
     // 判断节点坐标是否合理
     private void verify(int r, int c) {
         if (r >= N || c >= N) {
@@ -17,7 +26,7 @@ public class Percolation {
         }
     }
 
-    // 计算节点坐标
+    // 将二维的节点坐标转换为一维坐标
     private int coordinate(int r, int c) {
         return r * N + c;
     }
@@ -40,10 +49,12 @@ public class Percolation {
         return items[row][col];
     }
 
+    // 用于辅助open()函数，确认节点坐标是否合理
     private boolean connectVerify(int r, int c) {
         return  (r < N && c < N && r >= 0 && c >= 0) && items[r][c];
     }
 
+    // 尝试与上下左右四个方位的节点连接
     private void connect(int r, int c) {
         if (connectVerify(r + 1, c)) {
             wuf.union(coordinate(r + 1, c), coordinate(r, c));
@@ -63,7 +74,6 @@ public class Percolation {
         }
 
     }
-
 
     // open the site (row, col) if it is not open already
     public void open(int row, int col) {

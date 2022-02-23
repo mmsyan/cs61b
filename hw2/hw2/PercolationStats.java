@@ -11,6 +11,13 @@ public class PercolationStats {
     private double mean;
     private double stddev;
 
+    /**
+     * result:记录每次发生渗透时的临界点（已开启的节点数/总结点数）
+     * T:用于记录试验次数
+     * mean:计算样本均值
+     * stddev:计算样本标准差
+     * */
+
 
     private double test(int N, Percolation p) {
         while (!p.percolates()) {
